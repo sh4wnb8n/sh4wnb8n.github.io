@@ -40,30 +40,28 @@ image:
 </article><!-- /.hentry -->
 {% endfor %}
 
+{% if paginator.total_pages > 1 %}
 <div class="pagination">
   {% if paginator.previous_page %}
     {% if paginator.previous_page == 1 %}
-      <a href="{{ site.url }}" class="btn">Previous</a>
+      <!--<a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}" class="btn">Previous</a>-->
+      <a href="/" class="btn">Previous</a>
     {% else %}
-      <a href="{{ site.url }}/page{{ paginator.previous_page }}" class="btn">Previous</a>
+      <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}" class="btn">Previous</a>
     {% endif %}
   {% else %}
     Previous
   {% endif %}
   <ul class="inline-list">
-    <li>
-      {% if paginator.page == 1 %}
-        <span class="current-page">1</span>
-      {% else %}
-        <a href="{{ site.url }}">1</a>
-      {% endif %}
-    </li>
-    {% for count in (2..paginator.total_pages) %}
+    {% for count in (1..paginator.total_pages) %}
       <li>
         {% if count == paginator.page %}
           <span class="current-page">{{ count }}</span>
+        {% elsif count == 1 %}
+          <!--<a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">{{ count }}</a>-->
+          <a href="/">{{ count }}</a>
         {% else %}
-          <a href="{{ site.url }}/page{{ count }}">{{ count }}</a>
+          <a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', count }}">{{ count }}</a>
         {% endif %}
       </li>
     {% endfor %}
@@ -74,3 +72,4 @@ image:
     Next
   {% endif %}
 </div><!-- /.pagination -->
+{% endif %}
